@@ -5,7 +5,7 @@ This repository contains hands-on tutorials that are meant to be run locally and
 ## Connect
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/aayush-ostwal/)
-[![Follow on X](https://img.shields.io/twitter/follow/NirDiamantAI?label=Follow%20@NirDiamantAI&style=social)](https://x.com/ostwal_aayush)
+[![Follow on X](https://img.shields.io/twitter/follow/ostwal_aayush?label=Follow%20@ostwal_aayush&style=social)](https://x.com/ostwal_aayush)
 
 ## Stay Updated
 

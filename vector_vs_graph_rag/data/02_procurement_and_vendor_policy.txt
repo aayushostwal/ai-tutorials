@@ -1,0 +1,9 @@
+Title: Procurement and Vendor Policy
+
+Lumina Manufacturing reviews strategic suppliers every quarter, but routine purchasing approvals still follow the standard procurement matrix. Orders below the low-risk threshold can be approved by operations managers, while anything tied to launch commitments must be reviewed jointly by finance and supply chain. Travel gifts from vendors are prohibited, and supplier scorecards are archived for seven years.
+
+For the core product line, BlueRiver Circuits provides the controller boards used inside Orion Sensor. Delta Batteries supplies the backup battery packs required for Atlas Gateway shipments. Harbor Logistics moves finished hardware through Chennai Port before inventory is allocated to domestic projects and export lanes. When monsoon exposure is elevated or vessel windows are missed, the Bengaluru Warehouse becomes the preferred fallback distribution site. Two weeks of Orion Sensor safety stock are typically held in Bengaluru for continuity planning rather than revenue acceleration.
+
+The procurement team warns new program managers not to confuse shipping vendors with component vendors. Harbor Logistics does not manufacture hardware, but their routing decisions can still block launch readiness when customer windows are fixed. Internal audit has also flagged cases where teams referenced outdated vendor names in presentations, so any customer-facing material should use the current supplier registry before release.
+
+BlueRiver Circuits and Delta Batteries both appear in launch risk reviews, but for different reasons. BlueRiver capacity matters because controller boards are difficult to rebalance at short notice. Delta Batteries matters because Atlas Gateway cannot ship without the backup pack required by the enterprise uptime contract. None of those details should be shared outside approved planning channels.

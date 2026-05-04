@@ -1,0 +1,9 @@
+Title: Monsoon Incident Retrospective
+
+This retrospective covers the week in which heavy monsoon flooding disrupted operations around Chennai. The facilities team first reported the event as a workplace access issue, but by the second day it was clear that the commercial impact was mostly supply-chain related rather than office related. Chennai Port closed for three days, Harbor Logistics suspended normal route planning, and several outbound hardware movements had to be manually rebooked.
+
+The disruption hit Atlas Gateway assembly harder than Orion Sensor assembly because Delta Batteries deliveries were delayed during the closure window. Product leadership approved emergency rerouting through the Bengaluru Warehouse to protect Pune customer deployments that were already committed to implementation partners. Singapore orders were discussed in the same war room, but most of those units had already cleared customs and did not need the same mitigation path.
+
+Several internal updates mixed up infrastructure outages with logistics outages, which made early incident notes noisy. Platform Reliability still increased monitoring on Atlas Gateway firmware rollouts because support teams worried that delayed hardware swaps could amplify unrelated software tickets. One lesson from the incident was that operational dashboards should separate transport risk from platform health risk so that launch managers do not misread the source of customer impact.
+
+The finance team later asked whether rerouting costs should be booked against continuity planning or against launch enablement. That accounting question remains open, but the operational conclusion is settled: when Chennai routing is impaired, Bengaluru is the first fallback node for protecting Pune commitments.

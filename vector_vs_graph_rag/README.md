@@ -1,60 +1,76 @@
-# Vector vs Graph RAG with Local Ollama
+# Vector RAG vs Graph RAG — Tutorial
 
-This tutorial compares two retrieval patterns over the same small corpus of noisy enterprise documents:
+A hands-on Jupyter notebook that compares naive vector retrieval against graph-oriented retrieval on a small corpus of interconnected company documents. The tutorial covers the basics and then goes deeper into **production failure modes** with working code fixes.
 
-1. `Vector RAG`: embed each long document, run similarity search, and pass the top match to an LLM.
-2. `Graph RAG`: extract entities and relationships from prose, traverse connected nodes, and pass the structured context to an LLM.
+---
 
-The notebook is designed to run locally first and then show what you would change for production. The comparison is intentionally set up to stress a **naive vector baseline** over messy company docs, so the limitations are visible instead of hidden.
+## What this tutorial covers
 
-## Files
+### Part 1 — The core comparison
+- Why **naive document-level vector RAG** breaks down on multi-hop enterprise questions
+- Building a vector baseline (one embedding per full document, cosine similarity retrieval)
+- Extracting entity relationships from prose using deterministic rules
+- Loading a knowledge graph into **Neo4j** and retrieving via Cypher traversal
+- A 6-question benchmark designed to stress the vector baseline
+- Side-by-side answer generation using both methods with a local **Ollama** LLM
 
-| Path | Purpose |
-| --- | --- |
-| `vector_vs_graph_rag_tutorial.ipynb` | End-to-end tutorial notebook with setup, retrieval logic, benchmarks, and production notes |
-| `data/*.txt` | Realistic company-style onboarding, policy, incident, and launch documents used by both retrieval methods |
-| `requirements.txt` | Lightweight Python dependencies for the notebook |
+### Part 2 — Production failure modes (with code)
+Five failure modes that teams commonly encounter after their initial graph RAG implementation, each demonstrated and then fixed:
+
+| # | Failure | What goes wrong | Fix shown |
+|---|---|---|---|
+| 1 | **Entity Disambiguation** | "Delta Battery" doesn't match "Delta Batteries" → zero seed nodes, empty context | Fuzzy matching with `SequenceMatcher` |
+| 2 | **Brittle Extraction** | Paraphrased relationships are invisible to regex patterns | LLM-based extraction prompt |
+| 3 | **Shallow Graph Depth** | 4-hop causal chain only partially covered at `max_hops=2` | Per-query-type adaptive hop depth |
+| 4 | **Hallucination** | LLM fabricates answers when retrieved context doesn't support the query | Safe refusal prompt + post-hoc grounding check |
+| 5 | **Latency Bottlenecks** | Repeated embedding calls dominate P95 latency | In-process embedding cache |
+
+---
+
+## The corpus
+
+Five short (~130 word) documents about a fictional company, **Lumina Manufacturing**. All five share the same entities and are interconnected so that most interesting questions require facts from multiple documents:
+
+| File | Content |
+|---|---|
+| `01_employee_onboarding_handbook.txt` | Product stack (Orion Sensor → Atlas Gateway → Nimbus Analytics), team ownership, regional SLAs |
+| `02_procurement_and_vendor_policy.txt` | Supplier links (BlueRiver Circuits → Orion Sensor, Delta Batteries → Atlas Gateway), fallback routing |
+| `03_monsoon_incident_retro.txt` | Cascading failure: Monsoon → Chennai Port → Harbor Logistics → Delta Batteries → Atlas Gateway → Pune at risk |
+| `04_launch_readiness_brief.txt` | Launch dependencies, regional priority (Pune before Singapore), dashboard requirements |
+| `05_support_operating_playbook.txt` | SLAs, two-path escalation (Platform Reliability vs Field Engineering), multi-document reasoning |
+
+---
 
 ## Local setup
 
-1. Create and activate a Python environment.
-2. Install the dependencies:
-
 ```bash
-pip install -r requirements.txt
+make install   # create venv + install dependencies (includes JupyterLab)
+make models    # pull llama3.1:8b and nomic-embed-text via Ollama
+make neo4j     # start Neo4j 5 in Docker
+make notebook  # launch JupyterLab
 ```
 
-3. Install Ollama and pull the models used in the notebook:
+To stop Neo4j when you're done:
 
 ```bash
-ollama pull llama3.1:8b
-ollama pull nomic-embed-text
-ollama serve
+make stop
 ```
 
-4. Open the notebook:
+Override Neo4j defaults if needed:
 
 ```bash
-jupyter lab
+export NEO4J_URI=bolt://localhost:7687
+export NEO4J_USERNAME=neo4j
+export NEO4J_PASSWORD=password
+export NEO4J_DATABASE=neo4j
 ```
 
-## What the notebook covers
+Open the notebook from the `vector_vs_graph_rag/` directory so relative paths resolve correctly.
 
-- Why long enterprise documents are a bad fit for a naive document-level vector baseline
-- How to build both retrieval approaches from the same noisy corpus
-- How to extract a graph from prose instead of pre-labeled edges
-- How to measure retrieval latency and answer support on a benchmark designed around multi-hop operational questions
-- What needs to change when you move from local development to production
+---
 
-## Production direction
+## Key takeaway
 
-The notebook keeps everything local and transparent on purpose. For production, the main changes are:
+Naive vector retrieval is the right starting point — and often the wrong stopping point. When questions require connecting supplier dependencies, escalation ownership, routing fallbacks, or cascading failure chains across multiple documents, graph RAG becomes the correct next layer.
 
-- Replace the notebook's naive document-level vector search with chunked retrieval in a vector database such as pgvector, Qdrant, Weaviate, or Milvus
-- Replace the in-memory `networkx` graph with a graph database such as Neo4j or Amazon Neptune
-- Add offline evaluation, request tracing, caching, retries, and authorization boundaries
-- Treat the Ollama-based flow as a local development baseline, then swap the generation and embedding backends behind stable interfaces
-
-## Suggested flow
-
-Start with the notebook, then use the tutorial README as the checklist for hardening the design into a service.
+The production failure modes section shows that deploying graph RAG reliably also requires fuzzy entity matching, robust extraction, adaptive traversal depth, grounding verification, and latency management. Each failure mode is silent (no exception — just a wrong or empty answer), which is exactly why they matter in real deployments.

@@ -1,0 +1,9 @@
+Title: Common Errors and ZE Codes
+
+ZE-401 is caused by a lane conflict when two patches target the same position. Resolve it with zync lane rebase --origin, which replays your patches on top of the latest remote state.
+
+ZE-302 is caused by an authentication failure, usually from an expired session. Resolve it with zync auth refresh to renew the token without re-entering credentials.
+
+ZE-404 is caused by referencing a lane that does not exist. Resolve with zync lane create <name>, or verify the name with zync lane list.
+
+ZE-500 is usually triggered when a software patch or update becomes corrupted while being downloaded, transferred, or applied. In most cases, this happens because the connection between the client and the update source was interrupted or unstable during the patching process.

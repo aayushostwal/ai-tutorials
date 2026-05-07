@@ -1,9 +1,0 @@
-Title: Support Operating Playbook
-
-Support engineers are expected to acknowledge enterprise incidents within fifteen minutes, but acknowledgement alone is not considered mitigation. During launch windows, Pune customers require a same-day mitigation plan, while Singapore customers usually accept next-business-day mitigation if dashboards remain available. Escalation severity should reflect business risk, not only ticket volume.
-
-When a customer reports delayed insights, the first diagnostic step is to verify whether Orion Sensor telemetry is reaching Nimbus Analytics through Atlas Gateway. Support managers remind new hires that delayed insights, missing telemetry, and delayed shipments are related but not identical problems. If Atlas Gateway firmware appears unstable, the incident must be escalated to Platform Reliability instead of staying with front-line support.
-
-The playbook also explains how to talk about dependencies without overcommitting. Support can mention that supplier delays are correlated with rollout risk inside Nimbus Analytics, but they should not speculate on vendor fault unless procurement has confirmed it. New analysts often search for one sentence that explains an incident end to end; in practice, they need to connect several scattered facts across onboarding notes, launch briefs, and retro documents.
-
-For internal onboarding, managers use this playbook to show why simple keyword search often fails in operational environments. The answer to a customer question may depend on telemetry flow, supplier dependencies, routing fallback, and regional support policy all at once. That is why the support tooling roadmap includes a graph-oriented retrieval layer rather than relying only on broad semantic search over long documents.

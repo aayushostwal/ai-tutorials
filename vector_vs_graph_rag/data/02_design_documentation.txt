@@ -1,0 +1,13 @@
+Title: Design Documentation
+
+The Zync platform has four core components. 
+* Zync Core handles authentication and vault access. 
+* Patch Store validates incoming patches before forwarding them to Lane Tracker. 
+* Lane Tracker maintains lane state and notifies Proposal Engine when a lane diverges from its origin. 
+* Proposal Engine requires Guardian Service approval before a proposal can be merged into a protected lane.
+
+Service ownership: Core Team owns Zync Core. 
+* Infra Team owns the Patch Store and is responsible for patch storage reliability. (Slack Channel: #team-infra)
+The data path for any proposal is Patch Store then Lane Tracker then Proposal Engine then Guardian Service. Each stage must succeed for the next to begin.
+
+A ZE-series error code is produced when any stage in the pipeline fails. Failures in Patch Store emit ZE-500. Failures in Lane Tracker emit ZE-401.

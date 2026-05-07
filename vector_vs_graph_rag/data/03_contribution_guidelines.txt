@@ -1,0 +1,7 @@
+Title: Contribution Guidelines
+
+To contribute to a protected lane, create a proposal with zync proposal create --lane <target>. The proposal is reviewed by a Guardian before it can be merged. Guardians are assigned by the Vault Admin for each vault. To see who is assigned, run zync guardian list.
+
+Once a Guardian approves, run zync proposal merge. The Proposal Engine enforces that at least one Guardian approval is recorded before zync proposal merge is accepted. To request an additional reviewer, run zync guardian request <username>.
+
+Do not run zync proposal merge while the proposal has open review comments. If the assigned Guardian is unavailable, contact the Vault Admin, who can assign a replacement or force-merge using zync proposal merge --force.

@@ -1,0 +1,9 @@
+Title: Access Control and Roles
+
+Zync has three role levels: Contributor, Guardian, and Vault Admin.
+
+Contributors can create lanes, stage changes, create patches, and raise proposals using zync proposal create. Contributors cannot approve or merge proposals.
+
+Guardians review and approve proposals. Guardians are assigned by the Vault Admin using zync guardian assign <username>. Guardian Service is owned by the Core Team, which manages Guardian permissions across all vaults. A Guardian can reject a proposal with zync proposal reject, which returns it to the contributor for revision.
+
+Vault Admin has full vault access. Vault Admin manages Guardian assignments and can force-merge a proposal when a Guardian is unavailable. The Vault Admin also handles ZE-500 escalations and coordinates with Infra Team on Patch Store recovery.

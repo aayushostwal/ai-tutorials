@@ -1,0 +1,7 @@
+Title: Tech Onboarding
+
+Zync is a code collaboration platform. Projects live in vaults (repositories). Work happens in lanes (branches). Changes are recorded as patches (commits).
+
+Basic workflow: use zync stage <file> to prepare changes. Run zync patch -m "message" to record a patch. When a lane is ready, zync upload triggers the Patch Store, which queues the patch for validation. Use zync sync to pull the latest lane state from the remote vault. Use zync vault fetch <url> to download a vault for the first time.
+
+The Core Team owns Zync Core, which handles all authentication and lane routing. Two engineers cannot patch the same position in the same lane simultaneously; the second upload will fail with ZE-401. Refer to the Common Errors document for resolution steps.
